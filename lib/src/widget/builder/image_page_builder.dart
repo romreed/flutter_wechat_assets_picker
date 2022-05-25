@@ -59,6 +59,7 @@ class _ImagePageBuilderState extends State<ImagePageBuilder> {
     }
     final VideoPlayerController c = VideoPlayerController.file(
       file,
+      true,
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
     );
     setState(() => _controller = c);

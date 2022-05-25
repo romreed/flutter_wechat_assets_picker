@@ -88,7 +88,7 @@ class _VideoPageBuilderState extends State<VideoPageBuilder> {
     if (Platform.isAndroid) {
       _controller = VideoPlayerController.contentUri(Uri.parse(url));
     } else {
-      _controller = VideoPlayerController.network(url);
+      _controller = VideoPlayerController.network(url, useCache: true);
     }
     try {
       await controller.initialize();
@@ -157,9 +157,7 @@ class _VideoPageBuilderState extends State<VideoPageBuilder> {
             valueListenable: isPlaying,
             builder: (_, bool value, __) => GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: value
-                  ? playButtonCallback
-                  : widget.delegate.switchDisplayingDetail,
+              onTap: value ? playButtonCallback : widget.delegate.switchDisplayingDetail,
               child: Center(
                 child: AnimatedOpacity(
                   duration: kThemeAnimationDuration,
@@ -168,15 +166,11 @@ class _VideoPageBuilderState extends State<VideoPageBuilder> {
                     onTap: playButtonCallback,
                     child: DecoratedBox(
                       decoration: const BoxDecoration(
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(color: Colors.black12)
-                        ],
+                        boxShadow: <BoxShadow>[BoxShadow(color: Colors.black12)],
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        value
-                            ? Icons.pause_circle_outline
-                            : Icons.play_circle_filled,
+                        value ? Icons.pause_circle_outline : Icons.play_circle_filled,
                         size: 70.0,
                         color: Colors.white,
                       ),
@@ -199,8 +193,7 @@ class _VideoPageBuilderState extends State<VideoPageBuilder> {
           return Center(
             child: ScaleText(
               Singleton.textDelegate.loadFailed,
-              semanticsLabel:
-                  Singleton.textDelegate.semanticsTextDelegate.loadFailed,
+              semanticsLabel: Singleton.textDelegate.semanticsTextDelegate.loadFailed,
             ),
           );
         }
@@ -212,12 +205,9 @@ class _VideoPageBuilderState extends State<VideoPageBuilder> {
         }
         return Semantics(
           onLongPress: playButtonCallback,
-          onLongPressHint:
-              Singleton.textDelegate.semanticsTextDelegate.sActionPlayHint,
+          onLongPressHint: Singleton.textDelegate.semanticsTextDelegate.sActionPlayHint,
           child: GestureDetector(
-            onLongPress: MediaQuery.of(context).accessibleNavigation
-                ? playButtonCallback
-                : null,
+            onLongPress: MediaQuery.of(context).accessibleNavigation ? playButtonCallback : null,
             child: _contentBuilder(context),
           ),
         );

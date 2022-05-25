@@ -16,9 +16,7 @@ dependencies:
   provider: ^6.0.2
   video_player:
     git:
-      url: git@github.com:mavericksunny/plugins.git
-      ref: caching
-      path: packages/video_player/video_player
+      url: git@github.com:romreed/video_player.git
 
 dev_dependencies:
   flutter_test:
