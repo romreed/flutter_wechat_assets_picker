@@ -27,8 +27,7 @@ class AudioPageBuilder extends StatefulWidget {
 class _AudioPageBuilderState extends State<AudioPageBuilder> {
   /// A [StreamController] for current position of the [_controller].
   /// 控制器当前的播放进度
-  final StreamController<Duration> durationStreamController =
-      StreamController<Duration>.broadcast();
+  final StreamController<Duration> durationStreamController = StreamController<Duration>.broadcast();
 
   /// Create a [VideoPlayerController] instance for the page builder state.
   /// 创建一个 [VideoPlayerController] 的实例
@@ -73,7 +72,7 @@ class _AudioPageBuilderState extends State<AudioPageBuilder> {
     try {
       final String? url = await widget.asset.getMediaUrl();
       assetDuration = Duration(seconds: widget.asset.duration);
-      _controller = VideoPlayerController.network(url!);
+      _controller = VideoPlayerController.network(url!, useCache: true);
       await _controller.initialize();
       _controller.addListener(audioPlayerListener);
     } catch (e) {
@@ -139,8 +138,7 @@ class _AudioPageBuilderState extends State<AudioPageBuilder> {
   /// Duration indicator for the audio.
   /// 音频的时长指示器
   Widget get durationIndicator {
-    final String Function(Duration) durationBuilder =
-        Singleton.textDelegate.durationIndicatorBuilder;
+    final String Function(Duration) durationBuilder = Singleton.textDelegate.durationIndicatorBuilder;
     final String Function(Duration) semanticsDurationBuilder =
         Singleton.textDelegate.semanticsTextDelegate.durationIndicatorBuilder;
     return StreamBuilder<Duration>(
@@ -165,8 +163,7 @@ class _AudioPageBuilderState extends State<AudioPageBuilder> {
   Widget build(BuildContext context) {
     return Semantics(
       onLongPress: playButtonCallback,
-      onLongPressHint:
-          Singleton.textDelegate.semanticsTextDelegate.sActionPlayHint,
+      onLongPressHint: Singleton.textDelegate.semanticsTextDelegate.sActionPlayHint,
       child: ColoredBox(
         color: context.themeData.backgroundColor,
         child: isLoaded
